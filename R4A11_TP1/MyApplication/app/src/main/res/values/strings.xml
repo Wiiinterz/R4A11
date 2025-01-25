@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="labelCoucou">Coucou j\'ai trouvé comment faire</string>
+    <string name="Suivant">Suivant</string>
+    <string name="precedent">Precedent</string>
+    <string name="display_label">Nouvelle vue</string>
+</resources>
