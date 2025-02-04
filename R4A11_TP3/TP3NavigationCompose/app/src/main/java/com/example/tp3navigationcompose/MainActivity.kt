@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -23,12 +22,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.tp3navigationcompose.ui.theme.TP3NavigationComposeTheme
 
 class MainActivity : ComponentActivity() {
@@ -57,9 +56,13 @@ fun AppNavigation() {
         composable("form") {
             FormScreen(navController = navController)
         }
-        composable("display") {
-            DisplayScreen(navController = navController)
-        }
+        composable(
+            route = "display/{name}",
+            arguments = listOf(navArgument("name") {defaultValue = ""})
+            ) {backStrackEntry ->
+                val name = backStrackEntry.arguments?.getString("name") ?: ""
+                DisplayScreen(navController = navController, name)
+            }
     }
 }
 
@@ -103,7 +106,7 @@ fun FormScreen(navController: NavController) {
                 .fillMaxWidth()
                 .padding(16.dp)
         )
-        Button(onClick = {navController.navigate("display")}
+        Button(onClick = {navController.navigate("display/$name")}
         ) {
             Text(text = "Valider")
         }
@@ -114,7 +117,7 @@ fun FormScreen(navController: NavController) {
 }
 
 @Composable
-fun DisplayScreen(navController: NavController) {
+fun DisplayScreen(navController: NavController, name: String) {
     Column (
         modifier = Modifier
             .fillMaxSize()
@@ -123,6 +126,8 @@ fun DisplayScreen(navController: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(text = "Affichage du formulaire.",
+            style = MaterialTheme.typography.titleMedium)
+        Text(text = name,
             style = MaterialTheme.typography.titleMedium)
         Spacer(modifier = Modifier.height(24.dp)) //permet un espace entre les composants
         Button(onClick = { navController.popBackStack() }) {
