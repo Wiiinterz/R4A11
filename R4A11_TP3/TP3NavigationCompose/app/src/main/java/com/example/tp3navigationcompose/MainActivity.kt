@@ -57,6 +57,9 @@ fun AppNavigation() {
         composable("form") {
             FormScreen(navController = navController)
         }
+        composable("display") {
+            DisplayScreen(navController = navController)
+        }
     }
 }
 
@@ -100,6 +103,10 @@ fun FormScreen(navController: NavController) {
                 .fillMaxWidth()
                 .padding(16.dp)
         )
+        Button(onClick = {navController.navigate("display")}
+        ) {
+            Text(text = "Valider")
+        }
         Button(onClick = { navController.popBackStack() }) {
             Text(text = "Retour")
         }
@@ -107,17 +114,18 @@ fun FormScreen(navController: NavController) {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    TP3NavigationComposeTheme {
-        Greeting("Android")
-    }
-}
+fun DisplayScreen(navController: NavController) {
+    Column (
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(text = "Affichage du formulaire.",
+            style = MaterialTheme.typography.titleMedium)
+        Spacer(modifier = Modifier.height(24.dp)) //permet un espace entre les composants
+        Button(onClick = { navController.popBackStack() }) {
+            Text(text = "Retour")
+        }
+}}
